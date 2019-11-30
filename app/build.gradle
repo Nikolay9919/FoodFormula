@@ -4,6 +4,8 @@ apply plugin: 'kotlin-android'
 
 apply plugin: 'kotlin-android-extensions'
 
+apply plugin: 'kotlin-kapt'
+
 android {
     compileSdkVersion 29
     buildToolsVersion "29.0.2"
@@ -45,4 +47,8 @@ dependencies {
     //ViewModel lifecycle
     implementation 'androidx.lifecycle:lifecycle-extensions:2.1.0'
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.2.0-rc02"
+
+    implementation 'com.facebook.fresco:fresco:2.0.0'
+
+
 }

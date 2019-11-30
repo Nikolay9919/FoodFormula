@@ -18,5 +18,8 @@ data class Ingredient(
     @SerializedName("amount")
     var amount: Float?,
     @SerializedName("unit")
-    var unit: String?
+    var unit: String?,
+    @SerializedName("image")
+    var image: String?
+
 )
