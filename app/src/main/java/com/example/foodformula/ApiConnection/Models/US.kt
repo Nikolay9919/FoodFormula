@@ -1,10 +1,7 @@
 package com.example.foodformula.ApiConnection.Models
 
-import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
-import kotlinx.android.parcel.Parcelize
 
-@Parcelize
 data class US(
     @SerializedName("amount")
     val amount: Double,
@@ -12,4 +9,4 @@ data class US(
     val unitShort: String,
     @SerializedName("unitLong")
     var unitLong: String
-) : Parcelable
+)

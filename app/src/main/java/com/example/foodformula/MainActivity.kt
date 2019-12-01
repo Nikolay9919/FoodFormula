@@ -43,10 +43,8 @@ class MainActivity : AppCompatActivity() {
         } else finish()
     }
 
-    private fun openSearchFragment(): Boolean {
+    private fun openSearchFragment(): Boolean =
         replaceFragment(SearchFragment.newInstance(), SearchFragment.RECIPE_KEY, Bundle())
-        return true
-    }
 
     private fun addFragment(f: Fragment, addToBackStack: String?) {
         val bundle = Bundle()
@@ -56,11 +54,12 @@ class MainActivity : AppCompatActivity() {
         transaction.commit()
     }
 
-    fun replaceFragment(f: Fragment, addToBackStack: String?, bundle: Bundle?) {
+    fun replaceFragment(f: Fragment, addToBackStack: String?, bundle: Bundle?): Boolean {
         val transaction = supportFragmentManager.beginTransaction()
         transaction.replace(R.id.fragment_holder, f, addToBackStack)
         f.arguments = bundle
         transaction.commit()
+        return true
     }
 
 

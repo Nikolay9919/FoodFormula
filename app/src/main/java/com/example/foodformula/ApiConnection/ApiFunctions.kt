@@ -11,13 +11,9 @@ interface ApiFunctions {
     ): ResponseWrapperRecipes<Recipe>
 
     @GET("recipes/findByIngredients")
-    suspend fun getRecipeByIngridient(
-        @Query("ingredients") page: String
-    ): List<Recipe>
+    suspend fun getRecipeByIngridient(@Query("ingredients") page: String): List<Recipe>
 
     @GET("recipes/{id}/information")
-    suspend fun getRecipeById(
-        @Path("id") id: Int
-    ): Recipe
+    suspend fun getRecipeById(@Path("id") id: Int): Recipe
 
 }

@@ -82,18 +82,15 @@ class RecipeFragment : Fragment() {
 
     }
 
-    private fun viewOneSuccess(data: Recipe?) {
+    private fun viewOneSuccess(data: Recipe?) = if (data != null) {
         progressDialog!!.dismiss()
-        data?.let {
-            setupView(it)
-        }
-    }
+        setupView(data)
+    } else Snackbar.make(view!!, "Not Found", Snackbar.LENGTH_SHORT).show()
 
-    private fun viewOneError(error: Error?) {
+    private fun viewOneError(error: Error?) = if (error != null) {
         progressDialog?.dismiss()
         Snackbar.make(view!!, error?.localizedMessage.toString(), Snackbar.LENGTH_SHORT).show()
-
-    }
+    } else Snackbar.make(view!!, error?.localizedMessage.toString(), Snackbar.LENGTH_SHORT).show()
 
     private fun setupView(recipe: Recipe) {
         ingridientAdapter = recipe.extendedIngredients?.let {

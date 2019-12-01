@@ -1,10 +1,7 @@
 package com.example.foodformula.ApiConnection.Models
 
-import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
-import kotlinx.android.parcel.Parcelize
 
-@Parcelize
 data class ExtendedIngredients(
     @SerializedName("id")
     var id: Int,
@@ -33,4 +30,4 @@ data class ExtendedIngredients(
     @SerializedName("measures")
     var measures: Measures? = null
 
-) : Parcelable
+)

@@ -1,10 +1,7 @@
 package com.example.foodformula.ApiConnection.Models
 
-import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
-import kotlinx.android.parcel.Parcelize
 
-@Parcelize
 data class Recipe(
     @SerializedName("vegetarian")
     var vegetarian: Boolean = false,
@@ -70,10 +67,8 @@ data class Recipe(
     var diets: List<String?>? = null,
     @SerializedName("occasions")
     var occasions: List<String?>? = null,
-//    @SerializedName("winePairing")
-//    var winePairing: WinePairing? = null,
     @SerializedName("instructions")
     var instructions: String? = null,
     @SerializedName("analyzedInstructions")
     var analyzedInstructions: List<AnalyzedInstructions>? = null
-) : Parcelable
+)
