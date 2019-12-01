@@ -96,7 +96,7 @@ open class SearchFragment : Fragment() {
             val llm = LinearLayoutManager(context)
             llm.orientation = LinearLayoutManager.VERTICAL
             recycler_view.layoutManager = llm
-            adapter = data?.let {
+            adapter = data.let {
                 RecipesAdapter(
                     context!!,
                     it
@@ -108,7 +108,7 @@ open class SearchFragment : Fragment() {
                 }
 
             })
-            recycler_view.adapter = data?.let { adapter }
+            recycler_view.adapter = data.let { adapter }
         }
 
 
@@ -141,7 +141,7 @@ open class SearchFragment : Fragment() {
         val currentActivity = activity as MainActivity
         val bundle = Bundle()
         bundle.putInt(RECIPE_KEY, id)
-        currentActivity.replaceFragment(RecipeFragment.newInstance(),null, bundle)
+        currentActivity.replaceFragment(RecipeFragment.newInstance(), null, bundle)
     }
 
 }

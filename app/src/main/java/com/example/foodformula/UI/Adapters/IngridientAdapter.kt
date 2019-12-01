@@ -19,7 +19,7 @@ class IngridientAdapter(var array: List<ExtendedIngredients?>) :
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder =
         ViewHolder(
-            LayoutInflater.from(parent!!.context).inflate(
+            LayoutInflater.from(parent.context).inflate(
                 R.layout.ingridient_item,
                 parent,
                 false
@@ -30,7 +30,8 @@ class IngridientAdapter(var array: List<ExtendedIngredients?>) :
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.tvName.text = array[position]!!.name
         holder.tvVegeterian.text = array[position]!!.amount.toString()
-        val uri = Uri.parse("https://spoonacular.com/cdn/ingredients_100x100/" + array[position]!!.image)
+        val uri =
+            Uri.parse("https://spoonacular.com/cdn/ingredients_100x100/" + array[position]!!.image)
         holder.ivImage.setImageURI(uri)
 
     }

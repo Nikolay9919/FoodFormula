@@ -16,7 +16,7 @@ class StringAdapter(var array: List<String?>) :
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder =
         ViewHolder(
-            LayoutInflater.from(parent!!.context).inflate(
+            LayoutInflater.from(parent.context).inflate(
                 R.layout.string_item,
                 parent,
                 false

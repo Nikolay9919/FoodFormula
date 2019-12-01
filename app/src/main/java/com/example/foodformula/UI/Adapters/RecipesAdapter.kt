@@ -14,7 +14,6 @@ class RecipesAdapter(private val context: Context, var array: List<Recipe?>) :
     RecyclerView.Adapter<RecipesAdapter.ViewHolder>() {
 
 
-
     interface ItemClickListener {
         fun onRecyclerItemClick(view: View, position: Int)
     }
@@ -22,12 +21,11 @@ class RecipesAdapter(private val context: Context, var array: List<Recipe?>) :
     var listener: ItemClickListener? = null
 
 
-
     override fun getItemCount(): Int = array.size
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder =
         ViewHolder(
-            LayoutInflater.from(parent!!.context).inflate(
+            LayoutInflater.from(parent.context).inflate(
                 R.layout.recipe_item,
                 parent,
                 false

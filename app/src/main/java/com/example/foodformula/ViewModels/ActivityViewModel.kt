@@ -3,7 +3,6 @@ package com.example.foodformula.ViewModels
 import androidx.lifecycle.MutableLiveData
 import com.example.foodformula.ApiConnection.Event
 import com.example.foodformula.ApiConnection.Models.Recipe
-import com.example.foodformula.ApiConnection.NetworkService
 
 class ActivityViewModel : BaseViewModel() {
 
