@@ -1,7 +1,10 @@
 package com.example.foodformula.ApiConnection.Models
 
+import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
+import kotlinx.android.parcel.Parcelize
 
+@Parcelize
 data class Ingredient(
     @SerializedName("vegetarian")
     var vegetarian: Boolean?,
@@ -22,4 +25,4 @@ data class Ingredient(
     @SerializedName("image")
     var image: String?
 
-)
+): Parcelable

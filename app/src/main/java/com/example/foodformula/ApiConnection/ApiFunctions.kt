@@ -1,8 +1,8 @@
 package com.example.foodformula.ApiConnection
 
 import com.example.foodformula.ApiConnection.Models.Recipe
-import com.example.foodformula.ApiConnection.Models.Recipes
 import retrofit2.http.GET
+import retrofit2.http.Path
 import retrofit2.http.Query
 
 interface ApiFunctions {
@@ -10,8 +10,13 @@ interface ApiFunctions {
     suspend fun getRandomRecipe(
     ): ResponseWrapperRecipes<Recipe>
 
-    @GET("5dcc147154000059009c2104")
-    suspend fun getUsersError(
-        @Query("page") page: Int
-    ): ResponseWrapperRecipes<Recipes>
+    @GET("recipes/findByIngredients")
+    suspend fun getRecipeByIngridient(
+        @Query("ingredients") page: String
+    ): List<Recipe>
+    @GET("recipes/{id}/information")
+    suspend fun getRecipeById(
+        @Path("id") id: Int
+    ): Recipe
+
 }

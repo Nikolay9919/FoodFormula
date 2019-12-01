@@ -3,7 +3,7 @@ package com.example.foodformula.ViewModels
 import androidx.lifecycle.MutableLiveData
 import com.example.foodformula.ApiConnection.Event
 import com.example.foodformula.ApiConnection.Models.Recipe
-import com.example.foodformula.ApiConnection.Models.Recipes
+import com.example.foodformula.ApiConnection.NetworkService
 
 class ActivityViewModel : BaseViewModel() {
 
@@ -19,6 +19,22 @@ class ActivityViewModel : BaseViewModel() {
     fun getRandomRecipe() {
         requestWithLiveData(simpleLiveData) {
             api.getRandomRecipe()
+        }
+    }
+
+    fun getRecipeByIngridient(ingredient: String, callback: (data: Event<List<Recipe?>>?) -> Unit) {
+        requestWithCallback({
+            api.getRecipeByIngridient(
+                ingredient
+            )
+        }) {
+            callback(it)
+        }
+    }
+
+    fun getRecipeById(id: Int) {
+        requestWithLiveDataWithoutWraper(simpleLiveData) {
+            api.getRecipeById(id)
         }
     }
 

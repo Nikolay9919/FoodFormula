@@ -23,7 +23,8 @@ abstract class BaseViewModel : ViewModel() {
 
     fun <T> requestWithLiveData(
         liveData: MutableLiveData<Event<T>>,
-        request: suspend () -> ResponseWrapperRecipes<T>) {
+        request: suspend () -> ResponseWrapperRecipes<T>
+    ) {
 
         // В начале запроса сразу отправляем ивент загрузки
         liveData.postValue(Event.loading())
@@ -45,9 +46,35 @@ abstract class BaseViewModel : ViewModel() {
         }
     }
 
+    fun <T> requestWithLiveDataWithoutWraper(
+        liveData: MutableLiveData<Event<T>>,
+        request: suspend () -> T
+    ) {
+
+        // В начале запроса сразу отправляем ивент загрузки
+        liveData.postValue(Event.loading())
+
+        // Привязываемся к жизненному циклу ViewModel, используя viewModelScope.
+        // После ее уничтожения все выполняющиеся длинные запросы
+        // будут остановлены за ненадобностью.
+        // Переходим в IO поток и стартуем запрос
+        this.viewModelScope.launch(Dispatchers.IO) {
+            try {
+                val response = request.invoke()
+                // Сетим в лайвдату командой postValue в IO потоке
+                if (response != null) liveData.postValue(Event.success(response))
+                else if (response != null) liveData.postValue(Event.error(response))
+            } catch (e: Exception) {
+                e.printStackTrace()
+                liveData.postValue(Event.error(null))
+            }
+        }
+    }
+
     fun <T> requestWithCallback(
-        request: suspend () -> ResponseWrapperRecipes<T>,
-        response: (Event<T>) -> Unit) {
+        request: suspend () -> List<T?>?,
+        response: (Event<List<T?>>?) -> Unit
+    ) {
 
         response(Event.loading())
 
@@ -61,8 +88,8 @@ abstract class BaseViewModel : ViewModel() {
                 // последующим использованием данных
                 // в context классах
                 launch(Dispatchers.Main) {
-                    if (res.data != null) response(Event.success(res.data[0]))
-                    else if (res.error != null) response(Event.error(res.error))
+                    if (res != null) response(Event.successArray(res))
+                    else response(Event.error(res))
                 }
             } catch (e: Exception) {
                 e.printStackTrace()
@@ -73,4 +100,6 @@ abstract class BaseViewModel : ViewModel() {
             }
         }
     }
+
+
 }

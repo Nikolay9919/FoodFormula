@@ -29,12 +29,20 @@ class RecipeFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         activityViewModel = ViewModelProviders.of(this).get(ActivityViewModel::class.java)
         observeGetPosts()
-
+        if (arguments != null) {
+            if (arguments!!.containsKey(SearchFragment.RECIPE_KEY)) activityViewModel.getRecipeById(arguments!!.getInt(SearchFragment.RECIPE_KEY)!!)
+            else activityViewModel.getRandomRecipe()
+        }
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         return inflater.inflate(R.layout.recipe_layout, container, false)
     }
 
@@ -79,7 +87,7 @@ class RecipeFragment : Fragment() {
     }
 
     private fun viewOneError(error: Error?) {
-        progressDialog!!.dismiss()
+        progressDialog?.dismiss()
 
     }
 
