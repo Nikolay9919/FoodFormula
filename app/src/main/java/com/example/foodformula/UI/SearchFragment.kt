@@ -8,7 +8,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -16,6 +15,7 @@ import com.example.foodformula.ApiConnection.Models.Recipe
 import com.example.foodformula.ApiConnection.Status
 import com.example.foodformula.MainActivity
 import com.example.foodformula.R
+import com.example.foodformula.UI.Adapters.RecipesAdapter
 import com.example.foodformula.ViewModels.ActivityViewModel
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.search_layout.*
@@ -53,7 +53,10 @@ open class SearchFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         buttonTwoClickListener()
-        adapter = RecipesAdapter(context!!, arrayListOf())
+        adapter = RecipesAdapter(
+            context!!,
+            arrayListOf()
+        )
         val llm = LinearLayoutManager(context)
         llm.orientation = LinearLayoutManager.VERTICAL
         recycler_view.layoutManager = llm
@@ -81,7 +84,7 @@ open class SearchFragment : Fragment() {
 
     private fun viewTwoError(error: Error?) {
         progressDialog!!.dismiss()
-        Toast.makeText(context, error?.localizedMessage, Toast.LENGTH_SHORT)
+        Snackbar.make(view!!, error?.localizedMessage.toString(), Snackbar.LENGTH_SHORT).show()
 
     }
 
@@ -93,10 +96,14 @@ open class SearchFragment : Fragment() {
             val llm = LinearLayoutManager(context)
             llm.orientation = LinearLayoutManager.VERTICAL
             recycler_view.layoutManager = llm
-            adapter = data?.let { RecipesAdapter(context!!, it) }
+            adapter = data?.let {
+                RecipesAdapter(
+                    context!!,
+                    it
+                )
+            }
             adapter!!.setOnItemClickListener(object : RecipesAdapter.ItemClickListener {
                 override fun onRecyclerItemClick(view: View, position: Int) {
-                    Snackbar.make(view!!, "Clicked", Snackbar.LENGTH_SHORT).show()
                     goToRecipeFragment(data[position]!!.id)
                 }
 
@@ -114,6 +121,7 @@ open class SearchFragment : Fragment() {
         progressDialog!!.setCancelable(false) // disable dismiss by tapping outside of the dialog
 
         progressDialog!!.show()
+
     }
 
     protected fun hideKeyboard() {
@@ -133,6 +141,7 @@ open class SearchFragment : Fragment() {
         val currentActivity = activity as MainActivity
         val bundle = Bundle()
         bundle.putInt(RECIPE_KEY, id)
-        currentActivity.replaceFragment(RecipeFragment.newInstance(), "", bundle)
+        currentActivity.replaceFragment(RecipeFragment.newInstance(),null, bundle)
     }
+
 }

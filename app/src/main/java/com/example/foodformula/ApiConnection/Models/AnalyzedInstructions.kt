@@ -10,5 +10,5 @@ data class AnalyzedInstructions(
     var name: String? = null,
     @SerializedName("steps")
     var steps: List<Steps>? = null
-):Parcelable
+) : Parcelable
 

@@ -14,6 +14,7 @@ interface ApiFunctions {
     suspend fun getRecipeByIngridient(
         @Query("ingredients") page: String
     ): List<Recipe>
+
     @GET("recipes/{id}/information")
     suspend fun getRecipeById(
         @Path("id") id: Int

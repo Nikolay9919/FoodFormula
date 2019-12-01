@@ -11,4 +11,4 @@ data class Measures(
     @SerializedName("metric")
     var metric: Metric? = null
 
-): Parcelable
+) : Parcelable

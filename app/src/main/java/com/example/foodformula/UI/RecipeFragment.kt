@@ -9,23 +9,26 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.foodformula.ApiConnection.Models.Recipe
 import com.example.foodformula.ApiConnection.Status
 import com.example.foodformula.R
+import com.example.foodformula.UI.Adapters.IngridientAdapter
 import com.example.foodformula.ViewModels.ActivityViewModel
+import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.recipe_layout.*
 
 class RecipeFragment : Fragment() {
 
     companion object {
-
-        fun newInstance(): RecipeFragment {
-            return RecipeFragment()
-        }
+        fun newInstance(): RecipeFragment = RecipeFragment()
+        const val RECIPE_FRAGMENT_KEY = "RECIPE_FRAGMENT_KEY"
     }
 
     private lateinit var activityViewModel: ActivityViewModel
     var progressDialog: ProgressDialog? = null
+    var ingridientAdapter: IngridientAdapter? = null
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,7 +36,9 @@ class RecipeFragment : Fragment() {
         activityViewModel = ViewModelProviders.of(this).get(ActivityViewModel::class.java)
         observeGetPosts()
         if (arguments != null) {
-            if (arguments!!.containsKey(SearchFragment.RECIPE_KEY)) activityViewModel.getRecipeById(arguments!!.getInt(SearchFragment.RECIPE_KEY)!!)
+            if (arguments!!.containsKey(SearchFragment.RECIPE_KEY)) activityViewModel.getRecipeById(
+                arguments!!.getInt(SearchFragment.RECIPE_KEY)
+            )
             else activityViewModel.getRandomRecipe()
         }
     }
@@ -42,31 +47,29 @@ class RecipeFragment : Fragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(R.layout.recipe_layout, container, false)
-    }
+    ): View? = inflater.inflate(R.layout.recipe_layout, container, false)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         buttonOneClickListener()
-
+        ingridientAdapter = IngridientAdapter(arrayListOf())
+        val llm3 = LinearLayoutManager(context)
+        llm3.orientation = LinearLayoutManager.VERTICAL
+        extented_ingridients.layoutManager = llm3
+        extented_ingridients.isNestedScrollingEnabled = false
     }
 
-    private fun observeGetPosts() {
-        activityViewModel.simpleLiveData.observe(this, Observer {
-            when (it.status) {
-                Status.LOADING -> viewOneLoading()
-                Status.SUCCESS -> viewOneSuccess(it.data)
-                Status.ERROR -> viewOneError(it.error)
-            }
-        })
-    }
-
-
-    private fun buttonOneClickListener() {
-        random.setOnClickListener {
-            activityViewModel.getRandomRecipe()
+    private fun observeGetPosts() = activityViewModel.simpleLiveData.observe(this, Observer {
+        when (it.status) {
+            Status.LOADING -> viewOneLoading()
+            Status.SUCCESS -> viewOneSuccess(it.data)
+            Status.ERROR -> viewOneError(it.error)
         }
+    })
+
+
+    private fun buttonOneClickListener() = random.setOnClickListener {
+        activityViewModel.getRandomRecipe()
     }
 
     private fun viewOneLoading() {
@@ -88,19 +91,24 @@ class RecipeFragment : Fragment() {
 
     private fun viewOneError(error: Error?) {
         progressDialog?.dismiss()
+        Snackbar.make(view!!, error?.localizedMessage.toString(), Snackbar.LENGTH_SHORT).show()
 
     }
 
     private fun setupView(recipe: Recipe) {
+        ingridientAdapter = recipe.extendedIngredients?.let {
+            IngridientAdapter(it)
+        }
         recipe.run {
-            name.text = title
-            info.text = sourceUrl
-            ready_in_minutes.text = readyInMinutes.toString()
+            name.text = "$title"
+            info.text = "$aggregateLikes"
+            ready_in_minutes.text = "Time for preparing in minutes: $readyInMinutes"
+            if (extendedIngredients!!.isNotEmpty()) {
+                extented_ingridients.adapter = ingridientAdapter
+            }
+
             val uri = Uri.parse(image)
             image_recipe.setImageURI(uri)
-            if (diets!!.isNotEmpty()) diets_text.text = diets!![0]
-            if (dishTypes!!.isNotEmpty()) dish_types.text = dishTypes!![0]
-
             instruction_text.text = instructions
         }
 

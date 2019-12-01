@@ -33,4 +33,4 @@ data class ExtendedIngredients(
     @SerializedName("measures")
     var measures: Measures? = null
 
-): Parcelable
+) : Parcelable

@@ -12,4 +12,4 @@ data class US(
     val unitShort: String,
     @SerializedName("unitLong")
     var unitLong: String
-): Parcelable
+) : Parcelable

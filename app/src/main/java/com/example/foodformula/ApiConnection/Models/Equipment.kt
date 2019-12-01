@@ -13,4 +13,4 @@ data class Equipment(
     @SerializedName("image")
     var image: String? = null
 
-): Parcelable
+) : Parcelable

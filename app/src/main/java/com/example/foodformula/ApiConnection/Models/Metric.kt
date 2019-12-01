@@ -13,4 +13,4 @@ data class Metric(
     @SerializedName("unitLong")
     var unitLong: String?
 
-): Parcelable
+) : Parcelable

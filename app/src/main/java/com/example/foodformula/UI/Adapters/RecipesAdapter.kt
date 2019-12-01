@@ -1,4 +1,4 @@
-package com.example.foodformula.UI
+package com.example.foodformula.UI.Adapters
 
 import android.content.Context
 import android.view.LayoutInflater

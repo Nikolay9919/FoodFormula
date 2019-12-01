@@ -25,4 +25,4 @@ data class Ingredient(
     @SerializedName("image")
     var image: String?
 
-): Parcelable
+) : Parcelable
